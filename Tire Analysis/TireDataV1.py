@@ -1,56 +1,151 @@
+# Welcome to my tire data analysis code. This fits trimmed ttc data to a simplified pacejka model
+# Look at my github repo for the matlab script that chops up the tire data
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-from scipy.interpolate import UnivariateSpline
+from scipy.optimize import curve_fit
+import numpy as np
+from numpy import arange
+from sympy import *
+sns.set_style("ticks")
 
-global df2
-
-
+# These headers are grafted onto the csv you input. they match the matlab script output
 headers=['ET','FX','FY','FZ','SA','P','TSTI','TSTC','TSTO','AMBTMP','IA'];
 
-df = pd.read_csv('C:\CODING\PYTHONCODING\SlicedRUNS\A2356FIXED12test.csv', delimiter = ',', header=None, names = headers)
+# Input the chopped CSV from the matlab script and make sure your path and name is correct
 
+df = pd.read_csv('C:\CODING\PYTHONCODING\SlicedRUNS\A2356FIXED11.csv', delimiter = ',', header=None, names = headers)
+
+# df.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df.csv',sep = ',',index = False)
+
+# This loop iterates through the tire data csv and pulls the entire row at forces and pressures
 for rows in df:
-    df1 = df.loc[(df.FZ.abs() >= 45.0) & (df.FZ.abs() <= 55.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)]
 
-    df2 = df.loc[(df.FZ.abs() >= 95.0) & (df.FZ.abs()<= 105.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)]
+    df1 = df.loc[(df.FZ >= -55.0) & (df.FZ <= 45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 0.5) & (df['IA'] <= 2.0)]
 
-    df3 = df.loc[(df.FZ.abs() >= 145.0) & (df.FZ.abs() <= 155.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)] 
+    df2 = df.loc[(df.FZ >= -105.0) & (df.FZ <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 0.5) & (df['IA'] <= 2.0)]
 
-    df4 = df.loc[(df.FZ.abs() >= 190.0) & (df.FZ.abs() <= 210.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)]
+    df3 = df.loc[(df.FZ >= -155.0) & (df.FZ <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 0.5) & (df['IA'] <= 2.0)] 
 
+    df4 = df.loc[(df.FZ >= -205.0) & (df.FZ <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 0.5) & (df['IA'] <= 2.0)]
 
-df1 = df1.iloc[:3000]
-df1.FY.interpolate(method = 'nearest')
-plt.figure()
-ax = sns.lineplot(x = df1.SA, y = df1.FY)
-ax.set(xlabel = 'Slip Angle', ylabel = 'Lateral Force')
-plt.subplot()
-df2 = df2.iloc[:3000]
-df2.FY.interpolate(method = 'cubic')
-ax2 = sns.lineplot(x = df2.SA, y = df2.FY)
-plt.subplot()
-df3 = df3.iloc[:3000]
-df3.FY.interpolate(method = 'cubic')
-ax3 = sns.lineplot(x = df3.SA, y = df3.FY)
-plt.subplot()
-df4 = df4.iloc[:3000]
-df4.FY.interpolate(method = 'cubic')
-ax4 = sns.lineplot(x = df4.SA, y = df4.FY)
+df1.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df1.csv',sep = '\t',index = False)
+df3 = df3.iloc[1000:]
+
+df3.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df1.csv',sep = '\t',index = False)
+
+# Graphing data
+# The four different pacejka fitting algorithms are to make the loading times shorter and so that the curves fit a bit better that if there was
+# just one model
+def pacejka1(a, B, C, D, E):
+    return D * np.sin(C * np.arctan(B * a - E * (B * a - np.arctan(B * a))))
+
+def fit_pacejka1(a, Fy):
+    initial_guess = [0.2, 2.18, 55, -2.5]  # initial guess for B, C, D, and E
+    popt, _ = curve_fit(pacejka1, a, Fy, p0=initial_guess, maxfev= 100000)
+    return popt
+
+def pacejka2(a, B, C, D, E):
+    return D * np.sin(C * np.arctan(B * a - E * (B * a - np.arctan(B * a))))
+
+def fit_pacejka2(a, Fy):
+    initial_guess = [0.2, 2.18, 100, -2.5]  # initial guess for B, C, D, and E
+    popt, _ = curve_fit(pacejka2, a, Fy, p0=initial_guess, maxfev= 100000)
+    return popt
+
+def pacejka3(a, B, C, D, E):
+    return D * np.sin(C * np.arctan(B * a - E * (B * a - np.arctan(B * a))))
+
+def fit_pacejka3(a, Fy):
+    initial_guess = [0.2, 2.18, 150, -2.5]  # initial guess for B, C, D, and E
+    popt, _ = curve_fit(pacejka3, a, Fy, p0=initial_guess, maxfev= 100000)
+    return popt
+
+def pacejka4(a, B, C, D, E):
+    return D * np.sin(C * np.arctan(B * a - E * (B * a - np.arctan(B * a))))
+
+def fit_pacejka4(a, Fy):
+    initial_guess = [0.2, 2.18, 200, -2.5]  # initial guess for B, C, D, and E
+    popt, _ = curve_fit(pacejka4, a, Fy, p0=initial_guess, maxfev= 100000)
+    return popt
+
+# This is where the data from the loop is fit to the pacejka model
+
+# Pulls out the slip angle and lateral force values to be fit
+a = df1["SA"].values
+Fy = df1["FY"].values
+# Popt is the fitting of the model and outputs the coeffiecents 
+# the coeff are saved into their own variable to used on the cornering stiffness calculations
+popt = fit_pacejka1(a, Fy)
+print(popt)
+popt1 = popt
+
+a_fit = np.linspace(min(a), max(a), num=200)
+Fy_fit = pacejka1(a_fit, *popt)
+# saving the fit data into its own dataframe to be used later
+plt.plot(a_fit, Fy_fit, label='50 lbs')
+
+a = df2["SA"].values
+Fy = df2["FY"].values
+
+popt = fit_pacejka2(a, Fy)
+print(popt)
+popt2 = popt
+
+a_fit = np.linspace(min(a), max(a), num=200)
+Fy_fit = pacejka2(a_fit, *popt)
+plt.plot(a_fit, Fy_fit, label='100 lbs')
+
+a = df3["SA"].values
+Fy = df3["FY"].values
+
+popt = fit_pacejka3(a, Fy)
+print(popt)
+popt3 = popt
+
+a_fit = np.linspace(min(a), max(a), num=200)
+Fy_fit = pacejka3(a_fit, *popt)
+plt.plot(a_fit, Fy_fit, label='150 lbs')
+
+a = df4["SA"].values
+Fy = df4["FY"].values
+
+popt = fit_pacejka4(a, Fy)
+print(popt)
+popt4 = popt
+
+a_fit = np.linspace(min(a), max(a), num=200)
+Fy_fit = pacejka4(a_fit, *popt)
+plt.plot(a_fit, Fy_fit, label='200 lbs')
+
+# final SA FY plot formatting and saving to an image. you want to make sure that your path is correct
+
+plt.xlabel('Slip angle (Deg)')
+plt.ylabel('Lateral force (lbs)')
+plt.legend()
+plt.savefig('C:\CODING\PYTHONCODING\OUTPUT plots\LateralForceSA.jpg')
 plt.show()
 
-# for rows in df:
-#     df1 = df.loc[(df['TSTI'] >= 100.0) & (df['TSTI'] <= 200.0) & (df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)]
+# Calulations and plotting data for cornering stiffness(the slope of the lateral force slip angle)
+# Dataframes were made of each of the curve fit point sets these are what are used to make the Cornering stiffness calculations
 
-#     df2 = df.loc[(df['TSTC'] >= 100.0) & (df['TSTC'] <= 200.0) & (df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)]
+def Cornering_Stiffness(a, B, C, D, E):
+    term1 = D * C * np.cos(C * np.arctan(B * a - E * (B * a - np.arctan(B * a))))
+    term2 = B - E * (2 * B * a / (1 + (B * a)**2))
+    return term1 * term2
 
-#     df3 = df.loc[(df['TSTO'] >= 100.0) & (df['TSTO'] <= 200.0) &(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.0) & (df['P'] <= 12.0)] 
-
-
-# plt.figure()
-# ax4 = sns.lineplot(x = df1.ET, y = df1.FZ.abs())
-# ax4.set(xlabel = "Time", ylabel = "Vertical Load")
-# plt.show()
+CornerStiff1 = Cornering_Stiffness(0.0, popt1[0], popt1[1], popt1[2], popt1[3])
+CornerStiff2 = Cornering_Stiffness(0.0, popt2[0], popt2[1], popt2[2], popt2[3])
+CornerStiff3 = Cornering_Stiffness(0.0, popt3[0], popt3[1], popt3[2], popt3[3])
+CornerStiff4 = Cornering_Stiffness(0.0, popt4[0], popt4[1], popt4[2], popt4[3])
+CSdf = pd.DataFrame({"FZ" : [50,100,150,200], "CS" :[CornerStiff1, CornerStiff2, CornerStiff3, CornerStiff4]})
+sns.pointplot(data = CSdf.abs(), x = 'FZ', y = 'CS')
+plt.xlabel("Vertical Force")
+plt.ylabel("Cornering Stiffness")
+plt.legend()
+plt.savefig('C:\CODING\PYTHONCODING\OUTPUT plots\CorneringStiffness.jpg')
+plt.show()
 
 # df1.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df1.csv',sep = '\t',index = False)
 # df2.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df2.csv',sep = '\t',index = False)
