@@ -11,3 +11,5 @@ take note that the data it outputs has a .65 scaling factor on all of the forces
 
 if you have any questions send me an email at my school email fantunez@uncc.edu and i'll try to help.
 I am still working on the format and small things. I may make changes in the future so there is no need to use matlab but i havent started to look at that yet.
+
+Data used in this program is from Formula SAE Tire Test Consortium (FSAE TTC) and Calspan Tire Research Facility (TIRF)
