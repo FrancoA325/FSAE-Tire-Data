@@ -27,13 +27,11 @@ headers=['ET','FX','FY','FZ','SA','P','TSTI','TSTC','TSTO','AMBTMP','IA']
 
 # Input the chopped CSV from the matlab script and make sure your path and name is correct
 
-df = pd.read_csv('C:\CODING\TireDataPY\SlicedRUNS\A2356FIXED11.csv', delimiter = ',', header=None, names = headers)
+df = pd.read_csv('path of the cornering file', delimiter = ',', header=None, names = headers)
 
-writer = pd.ExcelWriter('C:\CODING\TireDataPY\OUTPUT plots\R20_IA4_PSI12_lowDeg.xlsx', engine = 'xlsxwriter')
+writer = pd.ExcelWriter('path that you want the excel output to be', engine = 'xlsxwriter')
 workbook = writer.book
 
-
-# df.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df.csv',sep = ',',index = False)
 
 # This loop iterates through the tire data csv and pulls the entire row at forces and pressures
 for rows in df:
@@ -79,7 +77,8 @@ for rows in df:
 # df3 = df3.iloc[500:]
 # df4 = df4.iloc[500:]
 # df5 = df5.iloc[500:]
-df1.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df2.csv',sep = '\t',index = False)
+df1.to_csv('this was a path that checks to see if the loop is pulling data properly',sep = '\t',index = False)
+# this is for checking what loads are tested
 plt.plot(dfLatLoads['ET'].values, dfLatLoads['FZ'].values)
 plt.show()
 
@@ -200,9 +199,9 @@ plt.xlabel('Slip angle (Deg)')
 plt.ylabel('Lateral force (lbs)')
 plt.grid()
 plt.legend()
-plt.savefig('C:\CODING\TireDataPY\OUTPUT plots\LateralForceSA.png')
+plt.savefig('file path for image saveing')
 Worksheet1 = writer.sheets['LatForce VS SlipAng ADJ']
-Worksheet1.insert_image('A1', 'C:\CODING\TireDataPY\OUTPUT plots\LateralForceSA.png')
+Worksheet1.insert_image('A1', 'file path of the above image for posing in excel')
 plt.show()
 
 # Calulations and plotting data for cornering stiffness(the slope of the lateral force slip angle)
@@ -229,9 +228,9 @@ CSdf2.to_excel(writer, sheet_name = 'CorStiff VS VertLoad ADJ', startrow = 0, st
 plt.xlabel("Vertical Force")
 plt.ylabel("Cornering Stiffness")
 plt.grid()
-plt.savefig('C:\CODING\TireDataPY\OUTPUT plots\CorneringStiffness.png')
+plt.savefig('file path for image saveing')
 Worksheet2 = writer.sheets['CorStiff VS VertLoad ADJ']
-Worksheet2.insert_image('A1', 'C:\CODING\TireDataPY\OUTPUT plots\CorneringStiffness.png')
+Worksheet2.insert_image('A1', 'Cornering stiff png file path for excel')
 plt.show()
 
 
@@ -239,7 +238,7 @@ headers2=['ET','FX','FZ','SA','P','TSTI','TSTC','TSTO','AMBTMP','IA','SL']
 
 # Input the chopped CSV from the matlab script and make sure your path and name is correct
 
-dfLong = pd.read_csv('C:\CODING\TireDataPY\SlicedRUNS\A2356FIXED69.csv', delimiter = ',', header=None, names = headers2)
+dfLong = pd.read_csv('drive brake csv path from matlab', delimiter = ',', header=None, names = headers2)
 
 for rows in dfLong:
 
@@ -275,7 +274,7 @@ for rows in dfLong:
     
     dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
 
-dfLong1.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df2.csv',sep = '\t',index = False)  
+dfLong1.to_csv('same loop test as the first one dont really need this',sep = '\t',index = False)  
 dfLong1 = dfLong1.iloc[500:]
 plt.plot(dfLongLoads['ET'].values, dfLongLoads['IA'].values)
 plt.show()
@@ -377,9 +376,9 @@ plt.xlabel('Slip Ratio')
 plt.ylabel('Longitudinal Force')
 plt.grid()
 plt.legend()
-plt.savefig('C:\CODING\TireDataPY\OUTPUT plots\LongSR.png')
+plt.savefig('more image file path saving')
 Worksheet3 = writer.sheets['LongForce VS SlipRat ADJ']
-Worksheet3.insert_image('A1', 'C:\CODING\TireDataPY\OUTPUT plots\LongSR.png')
+Worksheet3.insert_image('A1', 'excel image upload file path')
 plt.show()
 
 mu_50 = Fx_fit_50 / 50
@@ -407,12 +406,7 @@ plt.xlabel('Slip Ratio')
 plt.ylabel('Friction Coefficient')
 plt.grid()
 plt.legend()
-plt.savefig('C:\CODING\TireDataPY\OUTPUT plots\FrictionForceSlip.png')
+plt.savefig('image file path save for friction coe')
 Worksheet4 = writer.sheets['TireFrict VS SlipRat ADJ']
-Worksheet4.insert_image('A1', 'C:\CODING\TireDataPY\OUTPUT plots\FrictionForceSlip.png')
+Worksheet4.insert_image('A1', 'friction coe image path for excel upload')
 plt.show()
-
-# df1.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df1.csv',sep = '\t',index = False)
-# df2.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df2.csv',sep = '\t',index = False)
-# df3.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df3.csv',sep = '\t',index = False)
-# df4.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df4.csv',sep = '\t',index = False)
