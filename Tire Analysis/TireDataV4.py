@@ -36,7 +36,9 @@ def Outputfolder():
 def camberchoice():
     global camber
     global outName
+    global psi
     camber = int(a.get())
+    psi = int(p.get())
     outName = b.get()
     interface.destroy()
 
@@ -57,13 +59,18 @@ label.grid(column = 100, row = 70)
 a = Entry(interface, width = 15)
 a.grid(column=100,row = 90)
 
-label = ttk.Label(interface, text = "Tire Output File Name", font =('Calibri 12'))
+label = ttk.Label(interface, text = "Pressure Choice 12 or 14", font =('Calibri 12'))
 label.grid(column = 100, row = 110)
+p = Entry(interface, width = 15)
+p.grid(column=100,row = 130)
+
+label = ttk.Label(interface, text = "Tire Output File Name", font =('Calibri 12'))
+label.grid(column = 100, row = 150)
 b = Entry(interface, width = 15)
-b.grid(column=100,row = 130)
+b.grid(column=100,row = 170)
 
 button1 = ttk.Button(interface, text="Set Choices", command=camberchoice)  # <------
-button1.grid(column=100, row=150)
+button1.grid(column=100, row=190)
 
 interface.mainloop()
 
@@ -89,10 +96,15 @@ label.grid(column = 100, row = 70)
 label = ttk.Label(interface, text = camber, font =('Calibri 10'))
 label.grid(column = 100, row = 80)
 
+label = ttk.Label(interface, text = 'Camber Coice', font =('Calibri 12'))
+label.grid(column = 100, row = 90)
+label = ttk.Label(interface, text = camber, font =('Calibri 10'))
+label.grid(column = 100, row = 100)
+
 label = ttk.Label(interface, text = 'Output File Name', font =('Calibri 12'))
-label.grid(column = 100, row = 70)
+label.grid(column = 100, row = 110)
 label = ttk.Label(interface, text = outName, font =('Calibri 10'))
-label.grid(column = 100, row = 80)
+label.grid(column = 100, row = 120)
 interface.mainloop()
 
 sns.set_style("ticks")
@@ -211,41 +223,79 @@ workbook = writer.book
 # This loop iterates through the tire data csv and pulls the entire row at forces and pressures
 for rows in df:
     # dfLatLoads = df.loc[(df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= -1.0)]
-# 0 IA data scrape
-    if camber == 0:
-        df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+    if psi == 12:
+    # 0 IA data scrape
+        if camber == 0:
+            df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
 
-        df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+            df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
 
-        df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)] 
+            df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)] 
 
-        df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+            df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
 
-        df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+            df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
 
-#  2 IA data scrape
-    if camber == 2:
-        df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+    #  2 IA data scrape
+        if camber == 2:
+            df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
 
-        df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+            df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
 
-        df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)] 
+            df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)] 
 
-        df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+            df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
 
-        df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+            df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
 
-#  4 IA data scrape
-    if camber == 4:
-        df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+    #  4 IA data scrape
+        if camber == 4:
+            df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
 
-        df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+            df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
 
-        df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)] 
+            df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)] 
 
-        df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+            df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
 
-        df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+            df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 11.5) & (df['P'] <= 12.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+    
+    if psi == 14:
+    # 0 IA data scrape
+        if camber == 0:
+            df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+
+            df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+
+            df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)] 
+
+            df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+
+            df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= -1.0) & (df['IA'] <= 1.0)]
+
+    #  2 IA data scrape
+        if camber == 2:
+            df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+
+            df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+
+            df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)] 
+
+            df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+
+            df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 1.0) & (df['IA'] <= 3.0)]
+
+    #  4 IA data scrape
+        if camber == 4:
+            df1 = df.loc[(df['FZ'] >= -55.0) & (df['FZ'] <= -45.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+
+            df2 = df.loc[(df['FZ'] >= -105.0) & (df['FZ'] <= -95.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+
+            df3 = df.loc[(df['FZ'] >= -155.0) & (df['FZ'] <= -145.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)] 
+
+            df4 = df.loc[(df['FZ'] >= -205.0) & (df['FZ'] <= -195.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
+
+            df5 = df.loc[(df['FZ'] >= -255.0) & (df['FZ'] <= -245.0) & (df['P'] >= 13.5) & (df['P'] <= 14.5) & (df['IA'] >= 3.0) & (df['IA'] <= 5.0)]
 
 df1 = df1.iloc[500:]
 df2 = df2.iloc[500:]
@@ -507,36 +557,67 @@ dfLong.to_csv(output + '/df1.csv',sep = ',',index = False)
 for rows in dfLong:
 
     # dfLongLoads = dfLong.loc[(dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+    if psi == 12:
+    # 0 IA data scrape
+        if camber == 0:
+            dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+            
+            dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
 
-# 0 IA data scrape
-    if camber == 0:
-        dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
-        
-        dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+            dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+            
+            dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
 
-        dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
-        
-        dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+    # 2 IA data scrape
+        if camber == 2:
+            dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+            
+            dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
 
-# 2 IA data scrape
-    if camber == 2:
-        dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
-        
-        dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+            dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+            
+            dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
 
-        dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
-        
-        dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+    # 4 IA data scrape
+        if camber == 4:
+            dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+            
+            dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
 
-# 4 IA data scrape
-    if camber == 4:
-        dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
-        
-        dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+            dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+            
+            dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
 
-        dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
-        
-        dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 11.5) & (dfLong['P'] <= 12.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+    if psi == 14:
+    # 0 IA data scrape
+        if camber == 0:
+            dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+            
+            dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+
+            dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+            
+            dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= -1.0) & (dfLong['IA'] <= 1.0)]
+
+    # 2 IA data scrape
+        if camber == 2:
+            dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+            
+            dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+
+            dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+            
+            dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 1.0) & (dfLong['IA'] <= 3.0)]
+
+    # 4 IA data scrape
+        if camber == 4:
+            dfLong1 = dfLong.loc[(dfLong['FZ'] >= -55.0) & (dfLong['FZ'] <= -45.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+            
+            dfLong3 = dfLong.loc[(dfLong['FZ'] >= -155.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+
+            dfLong4 = dfLong.loc[(dfLong['FZ'] >= -205.0) & (dfLong['FZ'] <= -195.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
+            
+            dfLong5 = dfLong.loc[(dfLong['FZ'] >= -255.0) & (dfLong['FZ'] <= -145.0) & (dfLong['P'] >= 13.5) & (dfLong['P'] <= 14.5) & (dfLong['IA'] >= 3.0) & (dfLong['IA'] <= 5.0)]
 
 # dfLong1.to_csv('C:\\FSAE EV\\Vehicle Dynamics\\TIRES DINK DONKERY\\pandasOUT\\df2.csv',sep = '\t',index = False)  
 dfLong1 = dfLong1.iloc[500:]
