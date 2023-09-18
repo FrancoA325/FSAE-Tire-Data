@@ -1,3 +1,10 @@
+#-----------------------------------------------------------------------------
+#  Copyright (C) 2023  Francisco H. Antunez
+#
+#  Distributed under the terms of the MIT and Personal License. The full license is in
+#  the file LICENSE, distributed as part of this software.
+#-----------------------------------------------------------------------------
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
