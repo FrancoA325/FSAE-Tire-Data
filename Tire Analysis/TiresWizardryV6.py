@@ -46,11 +46,8 @@ class Interface:
         ttk.Button(self.master, text="Longitudinal File", command=self.longFile).grid(column=100, row=30)
         ttk.Label(self.master, textvariable=self.file_long, font=('Calibri 12')).grid(column=100, row=40)
 
-        ttk.Button(self.master, text="Warmup File", command=self.tempFile).grid(column=100, row=50)
-        ttk.Label(self.master, textvariable=self.file_long, font=('Calibri 12')).grid(column=100, row=60)
-
-        ttk.Button(self.master, text="Output Folder", command=self.outputFolder).grid(column=100, row=70)
-        ttk.Label(self.master, textvariable=self.file_out, font=('Calibri 12')).grid(column=100, row=80)
+        ttk.Button(self.master, text="Output Folder", command=self.outputFolder).grid(column=100, row=50)
+        ttk.Label(self.master, textvariable=self.file_out, font=('Calibri 12')).grid(column=100, row=60)
 
         ttk.Label(self.master, text="Camber Choice 0, 2, or 4", font=('Calibri 12')).grid(column=100, row=90)
         self.camber_entry = tk.Entry(self.master, width=15)
@@ -64,16 +61,13 @@ class Interface:
         self.out_name_entry = tk.Entry(self.master, width=15)
         self.out_name_entry.grid(column=100, row=170)
 
-        ttk.Button(self.master, text="Set Choices", command=self.set_choices).grid(column=100, row=190)
+        ttk.Button(self.master, text="Set Choices", command=self.setChoices).grid(column=100, row=190)
 
     def lateralFile(self):
         self.file_lat.set(filedialog.askopenfilename())
 
     def longFile(self):
         self.file_long.set(filedialog.askopenfilename())
-    
-    def tempFile(self):
-        self.file_temp.set(filedialog.askdirectory())
 
     def outputFolder(self):
         self.file_out.set(filedialog.askdirectory())
@@ -93,7 +87,6 @@ if __name__ == "__main__":
 # Accessing variables outside the class for the gui
 lateral = app.file_lat.get()
 longitude = app.file_long.get()
-temp = app.file_temp.get()
 output = app.file_out.get()
 
 camber = app.camber
