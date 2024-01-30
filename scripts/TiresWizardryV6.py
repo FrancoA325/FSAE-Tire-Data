@@ -16,7 +16,6 @@ from scipy.signal import savgol_filter
 import xlsxwriter
 import scipy.io as sio
 import csv
-import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
